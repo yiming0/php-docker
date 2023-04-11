@@ -94,3 +94,15 @@ jobs:
         # This step uses the identity token to provision an ephemeral certificate
         # against the sigstore community Fulcio instance.
         run: echo "${{ steps.meta.outputs.tags }}" | xargs -I {} cosign sign {}@${{ steps.build-and-push.outputs.digest }}
+        
+      - name: docker-manifest-create-action
+        # You may pin to the exact commit or the version.
+        # uses: int128/docker-manifest-create-action@65e65bc5c74e7be67cbaae6e5cea02391fe05204
+        uses: int128/docker-manifest-create-action@v1
+        with:
+          # tags of destination images (multi-line string)
+          tags: ${{ steps.meta.outputs.tags }}
+          # suffixes of source images (multi-line string)
+          suffixes: ''
+          # builder (auto | buildx | docker)
+          builder: auto # default is auto
