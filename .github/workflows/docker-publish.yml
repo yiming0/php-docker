@@ -103,6 +103,6 @@ jobs:
           # tags of destination images (multi-line string)
           tags: ${{ steps.meta.outputs.tags }}
           # suffixes of source images (multi-line string)
-          suffixes: ''
+          suffixes: 'php'
           # builder (auto | buildx | docker)
           builder: auto # default is auto
