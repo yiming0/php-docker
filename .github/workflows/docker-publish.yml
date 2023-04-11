@@ -103,6 +103,6 @@ jobs:
           # tags of destination images (multi-line string)
           tags: ${{ github.repository }}
           # suffixes of source images (multi-line string)
-          suffixes: 'latest'
+          suffixes: ':latest'
           # builder (auto | buildx | docker)
           builder: auto # default is auto
