@@ -101,8 +101,8 @@ jobs:
         uses: int128/docker-manifest-create-action@v1
         with:
           # tags of destination images (multi-line string)
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: ${{ github.repository }}
           # suffixes of source images (multi-line string)
-          suffixes: 'php'
+          suffixes: 'latest'
           # builder (auto | buildx | docker)
           builder: auto # default is auto
