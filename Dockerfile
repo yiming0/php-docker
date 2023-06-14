@@ -6,5 +6,4 @@ ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/do
 
 RUN set -x ; cd /app \
     && chmod +x /usr/local/bin/install-php-extensions \
-    && install-php-extensions pcntl
-
+    && install-php-extensions redis pcntl mysqli pdo_mysql
