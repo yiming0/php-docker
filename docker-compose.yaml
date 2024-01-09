@@ -1,0 +1,23 @@
+services:
+  dev:
+    build:
+      dockerfile: Dockerfile
+      target: dev
+    volumes:
+      - .:/app
+    command: /bin/sh -c "while sleep 1000; do :; done"
+
+  server:
+    build:
+      dockerfile: Dockerfile
+      target: app
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    command: php -S 0.0.0.0:8000
+    restart: always
+    healthcheck:
+        test: curl -f http://loccalhost:8000
+        retries: 3
+        timeout: 5s
