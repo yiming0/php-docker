@@ -1,23 +1,33 @@
 services:
   dev:
+    image: local/php
     build:
-      dockerfile: Dockerfile
+      dockerfile: .docker/Dockerfile
       target: dev
     volumes:
       - .:/app
     command: /bin/sh -c "while sleep 1000; do :; done"
 
   server:
+    image: local/php:runtime
     build:
-      dockerfile: Dockerfile
+      dockerfile: .docker/Dockerfile
       target: app
     volumes:
       - .:/app
     ports:
       - 8000:8000
-    command: php -S 0.0.0.0:8000
+    command: php artisan serve --host 0.0.0.0 --port=8000
     restart: always
     healthcheck:
         test: curl -f http://loccalhost:8000
         retries: 3
         timeout: 5s
+
+#  frankenphp:
+#    image: dunglas/frankenphp:alpine
+#    volumes:
+#      - .:/app
+#    ports:
+#      - 80:80
+#      - 443:443
