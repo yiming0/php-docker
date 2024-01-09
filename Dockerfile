@@ -1,18 +1,23 @@
-FROM php:8.3-alpine AS PHP
+FROM php:8.3-alpine AS app
 
-# https://github.com/mlocati/docker-php-extension-installer
+WORKDIR /app
+
+# https://github.com/mlocati/docker-php-extension-installer?tab=readme-ov-file#downloading-the-script-on-the-fly-with-add
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-RUN set -xe && \
-    chmod +x /usr/local/bin/install-php-extensions && \
-    install-php-extensions pdo pdo_mysql redis pcntl zip http && \
+RUN  set -xe && \
+     chmod +x /usr/local/bin/install-php-extensions && \
+     install-php-extensions pdo_mysql
 
-FROM PHP AS DEV
 
-# https://github.com/ohmyzsh/ohmyzsh
-ADD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh /usr/local/bin/install-zsh.sh
+FROM app AS dev
+
+# https://github.com/ohmyzsh/ohmyzsh?tab=readme-ov-file#basic-installation
+ADD https://install.ohmyz.sh /usr/local/bin/install.ohmyz.sh
 
 RUN set -xe && \
     install-php-extensions @composer && \
-    chmod +x /usr/local/bin/install-zsh.sh && \
-    sh install-zsh.sh
+    apk add zsh git && \
+    chmod +x /usr/local/bin/install.ohmyz.sh && \
+    install.ohmyz.sh \
+    apk -v cache clean
